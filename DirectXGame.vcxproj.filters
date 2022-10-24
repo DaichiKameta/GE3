@@ -20,10 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicVS.hlsl" />
-    <FxCompile Include="BasicPS.hlsl" />
+    <None Include="Resources\shaders\Basic.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Basic.hlsli" />
+    <FxCompile Include="Resources\shaders\BasicPS.hlsl" />
+    <FxCompile Include="Resources\shaders\BasicVS.hlsl" />
   </ItemGroup>
 </Project>
