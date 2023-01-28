@@ -3,6 +3,7 @@
 #include <wrl.h>
 #define DIRECTINPUT_VERSION     0x0800   // DirectInputのバージョン指定
 #include <dinput.h>
+#include "WinApp.h"
 
 class Input
 {
@@ -10,7 +11,8 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
-	void Initialize(HINSTANCE hInstance, HWND hwnd);
+	// 初期化
+	void Initialize(WinApp* winApp);
 
 	void Update();
 
@@ -19,6 +21,9 @@ public:
 	bool TriggerKey(BYTE keyNumber);
 
 private:
+	//WindowsAPI
+	WinApp* winApp = nullptr;
+
 	// キーボードデバイスの生成
 	ComPtr<IDirectInput8> directInput;
 	ComPtr<IDirectInputDevice8> keyboard;
