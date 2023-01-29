@@ -11,9 +11,14 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
-	// ‰Šú‰»
+	/// <summary>
+	/// ‰Šú‰»
+	/// </summary>
 	void Initialize(WinApp* winApp);
 
+	/// <summary>
+	/// XV
+	/// </summary>
 	void Update();
 
 	bool PushKey(BYTE keyNumber);

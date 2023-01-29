@@ -700,7 +700,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     // ゲームループ
     while (true) {
         
-        if (winApp->ProcessMssage() == true) {
+        if (winApp->ProcessMessage() == true) {
             // ゲームループを抜ける
             break;
         }

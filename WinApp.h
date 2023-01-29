@@ -7,27 +7,28 @@ class WinApp
 public: // 静的メンバ関数
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
+// メンバ関数
+public:
+	// 初期化
+	void Initialize();
+
+	// 終了
+	void Finalize();
+
+	// メッセージの処理
+	bool ProcessMessage();
+
+
+	// Getter
+	HWND GetHwnd() const { return hwnd; }
+	HINSTANCE GetHInstance() const { return w.hInstance; }
+
 public:
 	// ウィンドウ横幅
 	static const int window_width = 1280;  // 横幅
 
 	// ウィンドウ縦幅
 	static const int window_height = 720;  // 縦幅
-
-// メンバ関数
-public:
-	// 初期化
-	void Initialize();
-
-	// メッセージの処理
-	bool ProcessMssage();
-
-	// 
-	void Finalize();
-
-	// Getter
-	HWND GetHwnd() const { return hwnd; }
-	HINSTANCE GetHInstance() const { return w.hInstance; }
 
 // メンバ変数
 private:
@@ -36,4 +37,3 @@ private:
 	// ウィンドウクラスの設定
 	WNDCLASSEX w{};
 };
-

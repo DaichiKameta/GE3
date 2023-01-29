@@ -1,94 +1,108 @@
-#pragma once
+ï»¿#pragma once
 
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
 #include "WinApp.h"
 #include <vector>
+#include <chrono>
 
-// DirectXŠî”Õ
+// DirectXåŸºç›¤
 class DirectXCommon
 {
 public:
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(WinApp* winApp);
 
 	/// <summary>
-	/// •`‰æ‘Oˆ—
+	/// æç”»å‰å‡¦ç†
 	/// </summary>
 	void PreDraw();
 
 	/// <summary>
-	/// •`‰æŒãˆ—
+	/// æç”»å¾Œå‡¦ç†
 	/// </summary>
 	void PostDraw();
 
 	// Getter
-	// ƒfƒoƒCƒXæ“¾
+	// ãƒ‡ãƒã‚¤ã‚¹å–å¾—
 	ID3D12Device* GetDevice() const { return device.Get(); }
 
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
 
 private:
 	/// <summary>
-	/// ƒfƒoƒCƒX‰Šú‰»
+	/// ãƒ‡ãƒã‚¤ã‚¹åˆæœŸåŒ–
 	/// </summary>
 	void InitializeDevice();
 
 	/// <summary>
-	/// ƒRƒ}ƒ“ƒhŠÖ˜A‚Ì‰Šú‰»
+	/// ã‚³ãƒãƒ³ãƒ‰é–¢é€£ã®åˆæœŸåŒ–
 	/// </summary>
 	void InitializeCommand();
 
 	/// <summary>
-	/// ƒXƒƒbƒvƒ`ƒF[ƒ“‰Šú‰»
+	/// ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³åˆæœŸåŒ–
 	/// </summary>
 	void InitializeSwapchain();
 
 	/// <summary>
-	/// ƒŒƒ“ƒ_\ƒ^[ƒQƒbƒgƒrƒ…[‰Šú‰»
+	/// ãƒ¬ãƒ³ãƒ€â€•ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ“ãƒ¥ãƒ¼åˆæœŸåŒ–
 	/// </summary>
 	void InitializeRenderTargetView();
 
 	/// <summary>
-	/// [“xƒoƒbƒtƒ@‚Ì‰Šú‰»
+	/// æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–
 	/// </summary>
 	void InitializeDepthBuffer();
 
 	/// <summary>
-	/// ƒtƒFƒ“ƒX‰Šú‰»
+	/// ãƒ•ã‚§ãƒ³ã‚¹åˆæœŸåŒ–
 	/// </summary>
 	void InitializeFence();
+
+	/// <summary>
+	/// FPSå›ºå®šåˆæœŸåŒ–
+	/// </summary>
+	void InitializeFixFPS();
+
+	/// <summary>
+	/// FPSå›ºå®šæ›´æ–°
+	/// </summary>
+	void UpdateFixFPS();
 
 private:
 	WinApp* winApp = nullptr;
 
-	// ƒfƒoƒCƒX
+	// ãƒ‡ãƒã‚¤ã‚¹
 	Microsoft::WRL::ComPtr<ID3D12Device> device;
 	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
 
-	// ƒRƒ}ƒ“ƒh
+	// ã‚³ãƒãƒ³ãƒ‰
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
 
-	//ƒXƒƒbƒvƒ`ƒF[ƒ“
+	//ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 
-	// ƒŒƒ“ƒ_\ƒ^[ƒQƒbƒgƒrƒ…[
+	// ãƒ¬ãƒ³ãƒ€â€•ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ“ãƒ¥ãƒ¼
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
 	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> backBuffers;
 
-	// [“xƒoƒbƒtƒ@
+	// æ·±åº¦ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap;
 
-	// ƒtƒFƒ“ƒX
+	// ãƒ•ã‚§ãƒ³ã‚¹
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
+
+	// è¨˜éŒ²æ™‚é–“(FPSå›ºå®šç”¨)
+	std::chrono::steady_clock::time_point reference_;
 };
 

@@ -1,5 +1,6 @@
 ﻿#include "WinApp.h"
-#include <dxgi1_6.h>
+
+#pragma comment(lib,"winmm.lib")
 
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -45,7 +46,13 @@ void WinApp::Initialize()
     ShowWindow(hwnd, SW_SHOW);
 }
 
-bool WinApp::ProcessMssage()
+void WinApp::Finalize()
+{
+    // ウィンドウクラスを登録解除
+    UnregisterClass(w.lpszClassName, w.hInstance);
+}
+
+bool WinApp::ProcessMessage()
 {
     MSG msg{};  // メッセージ
 
@@ -63,8 +70,3 @@ bool WinApp::ProcessMssage()
     return false;
 }
 
-void WinApp::Finalize()
-{
-    // ウィンドウクラスを登録解除
-    UnregisterClass(w.lpszClassName, w.hInstance);
-}
